@@ -6,15 +6,15 @@
   "compilationOptions": {},
   "targets": {
     ".NETCoreApp,Version=v3.1": {
-      "FarkleCSharp/1.0.0": {
+      "ConsoleFarkle/1.0.0": {
         "runtime": {
-          "FarkleCSharp.dll": {}
+          "ConsoleFarkle.dll": {}
         }
       }
     }
   },
   "libraries": {
-    "FarkleCSharp/1.0.0": {
+    "ConsoleFarkle/1.0.0": {
       "type": "project",
       "serviceable": false,
       "sha512": ""

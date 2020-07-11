@@ -13,11 +13,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "/Users/tsolnikowski/Demos/FarkleCSharp/FarkleCSharp.csproj",
-      "projectName": "FarkleCSharp",
-      "projectPath": "/Users/tsolnikowski/Demos/FarkleCSharp/FarkleCSharp.csproj",
+      "projectUniqueName": "/Users/tsolnikowski/Demos/ConsoleFarkle/ConsoleFarkle.csproj",
+      "projectName": "ConsoleFarkle",
+      "projectPath": "/Users/tsolnikowski/Demos/ConsoleFarkle/ConsoleFarkle.csproj",
       "packagesPath": "/Users/tsolnikowski/.nuget/packages/",
-      "outputPath": "/Users/tsolnikowski/Demos/FarkleCSharp/obj/",
+      "outputPath": "/Users/tsolnikowski/Demos/ConsoleFarkle/obj/",
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "/Users/tsolnikowski/.nuget/NuGet/NuGet.Config"

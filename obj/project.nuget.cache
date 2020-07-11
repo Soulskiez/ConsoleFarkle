@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "Ki4L1/LCD+R7uhFPgOOEKUqr7ZszpXciLACL32SykUtlP6HJLvE/Tulu/SE6WngT3mEv//rfq75NX4GHAji8Ug==",
+  "dgSpecHash": "spElzkyFRptFpcQWnTqbhiv8UoADXHmdXSNHp1xzAHZh9+k5ZXPosTDF6Z8OTOqok2oVaaHj34OxcdQjLL/IDw==",
   "success": true,
-  "projectFilePath": "/Users/tsolnikowski/Demos/FarkleCSharp/FarkleCSharp.csproj",
+  "projectFilePath": "/Users/tsolnikowski/Demos/ConsoleFarkle/ConsoleFarkle.csproj",
   "expectedPackageFiles": [],
   "logs": []
 }

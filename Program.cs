@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace FarkleCSharp
+namespace ConsoleFarkle
 {
     class Program
     {
