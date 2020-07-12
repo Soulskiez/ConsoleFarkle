@@ -7,10 +7,8 @@ namespace ConsoleFarkle
     {
         static void Main(string[] args)
         {
-            string x;
-            x = Console.ReadLine();
-            Console.WriteLine("You typed: " + x);
-
+            Game game = new Game();
+            game.startGame();
         }
     }
 }
