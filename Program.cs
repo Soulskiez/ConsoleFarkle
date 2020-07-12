@@ -1,5 +1,6 @@
 ﻿using System;
 
+
 namespace ConsoleFarkle
 {
     class Program
@@ -9,6 +10,7 @@ namespace ConsoleFarkle
             string x;
             x = Console.ReadLine();
             Console.WriteLine("You typed: " + x);
+
         }
     }
 }
