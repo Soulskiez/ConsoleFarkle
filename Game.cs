@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;  
 
 namespace ConsoleFarkle
 {
@@ -24,6 +25,8 @@ namespace ConsoleFarkle
         public void twoPlayerGame() {
             Console.WriteLine("Play against another player");
             Farkle farkle = new Farkle();
+            int[] rollTest = farkle.roll();
+            List<ConsoleFarkle.RollResult> rollResults = new List<ConsoleFarkle.RollResult>();
         }
         public void computerGame() {
             Console.WriteLine("Play against computer");
