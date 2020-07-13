@@ -43,7 +43,6 @@ namespace ConsoleFarkle
                 }
             }
             for(int i = 0; i < roll.Length; i++) {
-
                 int currentKey = i;
                 if(resultTracker.ContainsKey(i)) {
                     switch(resultTracker[currentKey]) {
@@ -106,6 +105,7 @@ namespace ConsoleFarkle
                 if(isStraightPossible) {
                     rollResults.Add(RollResult.Straight);
                 } else {
+                    // TODO: Cant be reached, pair will always be in there. Need to remove pairs when we get to this point
                     rollResults.Add(RollResult.Nothing);
                 }
             }
