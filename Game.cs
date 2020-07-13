@@ -26,10 +26,21 @@ namespace ConsoleFarkle
             Console.WriteLine("Play against another player");
             Farkle farkle = new Farkle();
             int[] rollTest = farkle.roll();
-            List<ConsoleFarkle.RollResult> rollResults = new List<ConsoleFarkle.RollResult>();
+            //int[] rollTest = new int[]{1,1,1,4,5,5};
+            List<ConsoleFarkle.RollResult> rollResults = farkle.returnOptions(rollTest);
+            Console.WriteLine("Roll test");
+            foreach(int roll in rollTest) {
+                Console.WriteLine(roll);
+            }
+            Console.WriteLine("_________");
+            rollResults.ForEach(Print);
         }
         public void computerGame() {
             Console.WriteLine("Play against computer");
         }
+        void Print(RollResult result){
+            Console.WriteLine(result);
+        }
     }
 }
+

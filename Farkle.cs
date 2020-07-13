@@ -4,8 +4,7 @@ using System.Collections.Generic;
 namespace ConsoleFarkle
 {
     public enum RollResult {
-            Nothing = 0,
-            Pair = 0,
+            Pair, Nothing = 0,
             Fives = 50,
             Ones = 100,
             TripTwos = 200,
@@ -38,14 +37,15 @@ namespace ConsoleFarkle
             Array.Sort(roll);
             for(int i = 0; i < roll.Length; i++) {
                 if(resultTracker.ContainsKey(roll[i])) {
-                    resultTracker[roll[i]] = resultTracker[roll[i]]++;
+                    resultTracker[roll[i]] = ++resultTracker[roll[i]];
                 } else {
                     resultTracker.Add(roll[i], 1);
                 }
             }
             for(int i = 0; i < roll.Length; i++) {
-                int currentKey = roll[i];
-                if(resultTracker.ContainsKey(currentKey)) {
+
+                int currentKey = i;
+                if(resultTracker.ContainsKey(i)) {
                     switch(resultTracker[currentKey]) {
                         case 1 : 
                             if(currentKey == 1) {
@@ -69,7 +69,7 @@ namespace ConsoleFarkle
                         case 6 : 
                             rollResults.Add(RollResult.SixOfAKind);
                             break;
-                        default : 
+                        default :
                             break;
                     }
                 }
