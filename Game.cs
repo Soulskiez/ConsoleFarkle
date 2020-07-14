@@ -24,11 +24,13 @@ namespace ConsoleFarkle
 
         public void twoPlayerGame() {
             Console.WriteLine("Play against another player");
+            int score = 0;
             Farkle farkle = new Farkle();
             int diceCount = 6;
             int[] rollTest = farkle.roll(diceCount);
             List<RollResult> rollResults = farkle.returnOptions(rollTest);
-            Console.WriteLine("Roll test");
+            Console.WriteLine("Roll test, Current Score: {0}", score);
+
             foreach(int roll in rollTest) {
                 Console.WriteLine(roll);
             }
@@ -41,8 +43,9 @@ namespace ConsoleFarkle
             string input = Console.ReadLine();
             Console.WriteLine(input + " this was the input");
             List<RollResult> rollResultsSelected = farkle.determineRollSelections(input, rollResults);
+            score = farkle.calculateScore(rollResultsSelected, score);
             int diceForNextRoll = farkle.calculateRemainingDice(rollResultsSelected, diceCount);
-            Console.WriteLine("Here is the remaining dice count {0}", diceForNextRoll);
+            Console.WriteLine("Here is the remaining dice count {0}, Current Score: {1}", diceForNextRoll, score);
         }
         public void computerGame() {
             Console.WriteLine("Play against computer");

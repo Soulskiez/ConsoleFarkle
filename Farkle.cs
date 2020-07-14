@@ -161,6 +161,14 @@ namespace ConsoleFarkle
             }
             return selectedDiceOptions;
         }
+
+        public int calculateScore(List<RollResult> rollsSelected, int currentScore) {
+            int score = currentScore;
+            foreach(RollResult rollSelected in rollsSelected) {
+                score += (int)rollSelected;
+            }
+            return score;
+        }
         public int calculateRemainingDice(List<RollResult> rollOptionsSelected, int currentDiceCount) {
             int remainingDice = currentDiceCount;
             foreach(RollResult rollOption in rollOptionsSelected) {
