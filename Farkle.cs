@@ -18,21 +18,7 @@ namespace ConsoleFarkle
             SixOfAKind = 3000,
             TwoTriplets = 2500,
     }
-        public enum RollSelectionDiceCount {
-            Pair, Nothing = 0,
-            Fives = 1,
-            Ones = 1,
-            TripTwos = 3,
-            TripThrees, TripOnes = 3,
-            TripFours = 3,
-            TripFives = 3,
-            TripSixes = 3,
-            FourOfAKind = 4,
-            Straight, FourOfAKindAndPair, ThreePairs = 6,
-            FiveOfAKind = 5,
-            SixOfAKind = 6,
-            TwoTriplets = 6,
-    }
+        
     class Farkle
     {
         Random random = new Random();
