@@ -54,6 +54,13 @@ namespace ConsoleFarkle
                             }
                             break;
                         case 2 : 
+                            if(currentKey == 1) {
+                                rollResults.Add(RollResult.Ones);
+                                rollResults.Add(RollResult.Ones);
+                            } else if(currentKey == 5) {
+                                rollResults.Add(RollResult.Fives);
+                                rollResults.Add(RollResult.Fives);
+                            }
                             rollResults.Add(RollResult.Pair);
                             break;
                         case 3 :
@@ -94,24 +101,17 @@ namespace ConsoleFarkle
             } else if(tripletCount == 2) {
                 rollResults.Add(RollResult.TwoTriplets);
             } 
-            bool isStraightPossible = true;
+            rollResults.RemoveAll(isPair);
+            if(isStraight(resultTracker)) {
+                rollResults.Add(RollResult.Straight);
+            }
             if(rollResults.Count == 0) {
-                for(int i = 0; i < roll.Length; i++) {
-                    if(roll[i] != i) {
-                        isStraightPossible = false;
-                        break;
-                    } 
-                }
-                if(isStraightPossible) {
-                    rollResults.Add(RollResult.Straight);
-                } else {
-                    // TODO: Cant be reached, pair will always be in there. Need to remove pairs when we get to this point
-                    rollResults.Add(RollResult.Nothing);
-                }
+                // TODO: Cant be reached, pair will always be in there. Need to remove pairs when we get to this point
+                rollResults.Add(RollResult.Nothing);
             }
             return rollResults;
         }
-        public RollResult getTripsResult(int rollKey) {
+        private RollResult getTripsResult(int rollKey) {
             switch(rollKey) {
                 case 1 :
                     return RollResult.TripOnes;
@@ -130,7 +130,7 @@ namespace ConsoleFarkle
             }
         }
 
-        public bool isTripsRollResult(RollResult result) {
+        private bool isTripsRollResult(RollResult result) {
             return (result == RollResult.TripOnes ||
                 result == RollResult.TripTwos ||
                 result == RollResult.TripThrees ||
@@ -138,6 +138,17 @@ namespace ConsoleFarkle
                 result == RollResult.TripFives ||
                 result == RollResult.TripSixes
             ) ? true : false;
+        }
+        private static bool isPair(RollResult roll) {
+            return roll == RollResult.Pair;
+        }
+        private bool isStraight(Dictionary<int, int> resultTracker) {
+            for(int i = 1; i < resultTracker.Count; i++) {
+                if(!resultTracker.ContainsKey(i)){
+                    return false;
+                }
+            }
+            return true;
         }
     }
 }
