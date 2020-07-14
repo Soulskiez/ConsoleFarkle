@@ -17,7 +17,22 @@ namespace ConsoleFarkle
             FiveOfAKind = 2000,
             SixOfAKind = 3000,
             TwoTriplets = 2500,
-        }
+    }
+        public enum RollSelectionDiceCount {
+            Pair, Nothing = 0,
+            Fives = 1,
+            Ones = 1,
+            TripTwos = 3,
+            TripThrees, TripOnes = 3,
+            TripFours = 3,
+            TripFives = 3,
+            TripSixes = 3,
+            FourOfAKind = 4,
+            Straight, FourOfAKindAndPair, ThreePairs = 6,
+            FiveOfAKind = 5,
+            SixOfAKind = 6,
+            TwoTriplets = 6,
+    }
     class Farkle
     {
         Random random = new Random();
@@ -160,8 +175,50 @@ namespace ConsoleFarkle
             }
             return selectedDiceOptions;
         }
-        public int calculateRemainingDice(RollResult[] rollOptionsSelected) {
-            return 4;
+        public int calculateRemainingDice(List<RollResult> rollOptionsSelected, int currentDiceCount) {
+            int remainingDice = currentDiceCount;
+            foreach(RollResult rollOption in rollOptionsSelected) {
+                // REMINDER: this roll result is just a int, dont think of it as an actual type.
+                switch(rollOption) {
+                    case RollResult.Fives : 
+                        remainingDice--;
+                        break;
+                    case RollResult.Ones : 
+                        remainingDice--;
+                        break;
+                    case RollResult.TripTwos : 
+                        remainingDice -= 3;
+                        break;
+                    case RollResult.TripThrees : 
+                        remainingDice -= 3;
+                        break;
+                    case RollResult.TripFours : 
+                        remainingDice -= 3;
+                        break;
+                    case RollResult.TripFives : 
+                        remainingDice -= 3;
+                        break;
+                    case RollResult.TripSixes : 
+                        remainingDice -= 3;
+                        break; 
+                    case RollResult.FourOfAKind : 
+                        remainingDice -= 4;
+                        break;
+                    case RollResult.Straight : // This also checks FourOfAKindAndPair and ThreePairs. They all remove the same amount of dice
+                        remainingDice -= 6;
+                        break;
+                    case RollResult.FiveOfAKind : 
+                        remainingDice -= 5;
+                        break;
+                    case RollResult.SixOfAKind : 
+                        remainingDice -= 6;
+                        break; 
+                    case RollResult.TwoTriplets : 
+                        remainingDice -= 6;
+                        break;  
+                }
+            }
+            return remainingDice;
         }
     }
 }
