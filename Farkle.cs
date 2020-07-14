@@ -102,7 +102,8 @@ namespace ConsoleFarkle
                 rollResults.Add(RollResult.TwoTriplets);
             } 
             rollResults.RemoveAll(isPair);
-            if(isStraight(resultTracker)) {
+            if(isStraight(roll)) {
+                Console.WriteLine("isStriaght is true");
                 rollResults.Add(RollResult.Straight);
             }
             if(rollResults.Count == 0) {
@@ -142,9 +143,9 @@ namespace ConsoleFarkle
         private static bool isPair(RollResult roll) {
             return roll == RollResult.Pair;
         }
-        private bool isStraight(Dictionary<int, int> resultTracker) {
-            for(int i = 1; i < resultTracker.Count; i++) {
-                if(!resultTracker.ContainsKey(i)){
+        private bool isStraight(int[] roll) {
+            for(int i = 0; i < roll.Length; i++) {
+                if(roll[i] != i + 1){
                     return false;
                 }
             }

@@ -25,8 +25,7 @@ namespace ConsoleFarkle
         public void twoPlayerGame() {
             Console.WriteLine("Play against another player");
             Farkle farkle = new Farkle();
-            //int[] rollTest = farkle.roll();
-            int[] rollTest = new int[]{1,2,3,4,5,6};
+            int[] rollTest = farkle.roll();
             List<ConsoleFarkle.RollResult> rollResults = farkle.returnOptions(rollTest);
             Console.WriteLine("Roll test");
             foreach(int roll in rollTest) {
