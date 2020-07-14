@@ -32,13 +32,12 @@ namespace ConsoleFarkle
                 Console.WriteLine(roll);
             }
             Console.WriteLine("_________");
-            rollResults.ForEach(Print);
+            for(int i = 0; i < rollResults.Count; i++) {
+                Console.WriteLine((i + 1) + ". " + rollResults[i]);
+            }
         }
         public void computerGame() {
             Console.WriteLine("Play against computer");
-        }
-        void Print(RollResult result){
-            Console.WriteLine(result);
         }
     }
 }
