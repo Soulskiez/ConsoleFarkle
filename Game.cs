@@ -11,7 +11,8 @@ namespace ConsoleFarkle
             int gameMode = Int32.Parse(Console.ReadLine());
             switch(gameMode) {
                 case 1 :
-                    twoPlayerGame();
+                    Console.WriteLine("Play against another player");
+                    twoPlayerGame(6, 0);
                     break;
                 case 2 : 
                     computerGame();
@@ -22,14 +23,17 @@ namespace ConsoleFarkle
             }
         }
 
-        public void twoPlayerGame() {
-            Console.WriteLine("Play against another player");
-            int score = 0;
+        public void twoPlayerGame(int startDice, int score) {
+            if(score >= 5000) { // Change later after testing.
+                Console.WriteLine("you win!");
+                return;
+            }
+            int currentScore = score;
             Farkle farkle = new Farkle();
-            int diceCount = 6;
+            int diceCount = startDice;
             int[] rollTest = farkle.roll(diceCount);
             List<RollResult> rollResults = farkle.returnOptions(rollTest);
-            Console.WriteLine("Roll test, Current Score: {0}", score);
+            Console.WriteLine("Roll test, Current Score: {0}", currentScore);
 
             foreach(int roll in rollTest) {
                 Console.WriteLine(roll);
@@ -43,9 +47,10 @@ namespace ConsoleFarkle
             string input = Console.ReadLine();
             Console.WriteLine(input + " this was the input");
             List<RollResult> rollResultsSelected = farkle.determineRollSelections(input, rollResults);
-            score = farkle.calculateScore(rollResultsSelected, score);
+            currentScore = farkle.calculateScore(rollResultsSelected, currentScore);
             int diceForNextRoll = farkle.calculateRemainingDice(rollResultsSelected, diceCount);
-            Console.WriteLine("Here is the remaining dice count {0}, Current Score: {1}", diceForNextRoll, score);
+            Console.WriteLine("Here is the remaining dice count {0}, Current Score: {1}", diceForNextRoll, currentScore);
+            twoPlayerGame(diceForNextRoll, currentScore);
         }
         public void computerGame() {
             Console.WriteLine("Play against computer");
