@@ -22,9 +22,9 @@ namespace ConsoleFarkle
     {
         Random random = new Random();
 
-        public int[] roll() {
-            int[] rollResults = new int[6];
-            for(int i = 0; i < 6; i++) {
+        public int[] roll(int rollCount) {
+            int[] rollResults = new int[rollCount];
+            for(int i = 0; i < rollCount; i++) {
                 int num = random.Next(1,6);
                 rollResults[i] = num;
             }
@@ -150,6 +150,18 @@ namespace ConsoleFarkle
                 }
             }
             return true;
+        }
+        public List<RollResult> determineRollSelections(string inputSelection, List<RollResult> results) {
+            List<RollResult> selectedDiceOptions = new List<RollResult>();
+            foreach(char input in inputSelection) {
+                // TODO: check for invalid inputs, ex. spaces, numbers that are not in the list, invalid char...
+                int numIndex = int.Parse(input.ToString()) - 1;
+                selectedDiceOptions.Add(results[numIndex]);
+            }
+            return selectedDiceOptions;
+        }
+        public int calculateRemainingDice(RollResult[] rollOptionsSelected) {
+            return 4;
         }
     }
 }

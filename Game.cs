@@ -25,8 +25,8 @@ namespace ConsoleFarkle
         public void twoPlayerGame() {
             Console.WriteLine("Play against another player");
             Farkle farkle = new Farkle();
-            int[] rollTest = farkle.roll();
-            List<ConsoleFarkle.RollResult> rollResults = farkle.returnOptions(rollTest);
+            int[] rollTest = farkle.roll(6);
+            List<RollResult> rollResults = farkle.returnOptions(rollTest);
             Console.WriteLine("Roll test");
             foreach(int roll in rollTest) {
                 Console.WriteLine(roll);
@@ -34,6 +34,14 @@ namespace ConsoleFarkle
             Console.WriteLine("_________");
             for(int i = 0; i < rollResults.Count; i++) {
                 Console.WriteLine((i + 1) + ". " + rollResults[i]);
+            }
+            Console.WriteLine("Enter numbers of what options you want to take.");
+            Console.WriteLine("_________");
+            string input = Console.ReadLine();
+            Console.WriteLine(input + " this was the input");
+            List<RollResult> rollResultsSelected = farkle.determineRollSelections(input, rollResults);
+            foreach(RollResult result in rollResultsSelected) {
+                Console.WriteLine(result);
             }
         }
         public void computerGame() {
