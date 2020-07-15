@@ -4,7 +4,8 @@ using System.Collections.Generic;
 namespace ConsoleFarkle
 {
     public enum RollResult {
-            Pair, Nothing = 0,
+            Nothing = 0,
+            Pair = 1,
             Fives = 50,
             Ones = 100,
             TripTwos = 200,
