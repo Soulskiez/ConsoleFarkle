@@ -6,21 +6,21 @@ namespace ConsoleFarkle
     public enum RollResult {
             Nothing = 0,
             Pair = 1,
-            Fives = 50,
-            Ones = 100,
-            TripTwos = 200,
-            TripThrees = 300,
-            TripOnes = 300,
-            TripFours = 400,
-            TripFives = 500,
-            TripSixes = 600,
-            FourOfAKind = 1000,
-            Straight = 1500, 
-            FourOfAKindAndPair = 1500, 
-            ThreePairs = 1500,
-            FiveOfAKind = 2000,
-            SixOfAKind = 3000,
-            TwoTriplets = 2500,
+            Fives = 2,
+            Ones = 3,
+            TripTwos = 4,
+            TripThrees = 5,
+            TripOnes = 6,
+            TripFours = 7,
+            TripFives = 8,
+            TripSixes = 9,
+            FourOfAKind = 10,
+            Straight = 11, 
+            FourOfAKindAndPair = 12, 
+            ThreePairs = 13,
+            FiveOfAKind = 14,
+            SixOfAKind = 15,
+            TwoTriplets = 16,
     }
         
     class Farkle
@@ -165,14 +165,6 @@ namespace ConsoleFarkle
             }
             return selectedDiceOptions;
         }
-
-        public int calculateScore(List<RollResult> rollsSelected, int currentScore) {
-            int score = currentScore;
-            foreach(RollResult rollSelected in rollsSelected) {
-                score += (int)rollSelected;
-            }
-            return score;
-        }
         public int calculateRemainingDice(List<RollResult> rollOptionsSelected, int currentDiceCount) {
             int remainingDice = currentDiceCount;
             foreach(RollResult rollOption in rollOptionsSelected) {
@@ -183,6 +175,9 @@ namespace ConsoleFarkle
                         break;
                     case RollResult.Ones : 
                         remainingDice--;
+                        break;
+                    case RollResult.TripOnes :
+                        remainingDice -= 3;
                         break;
                     case RollResult.TripTwos : 
                         remainingDice -= 3;
@@ -202,8 +197,13 @@ namespace ConsoleFarkle
                     case RollResult.FourOfAKind : 
                         remainingDice -= 4;
                         break;
-                    case RollResult.Straight : // This also checks FourOfAKindAndPair and ThreePairs. They all remove the same amount of dice
-                        Console.WriteLine("HIT!!!!");
+                    case RollResult.Straight : // TEST TO MAKE SURE YOU FIXED THIS BUG This also checks FourOfAKindAndPair and ThreePairs. They all remove the same amount of dice
+                        remainingDice -= 6;
+                        break;
+                    case RollResult.FourOfAKindAndPair : 
+                        remainingDice -= 6;
+                        break;
+                    case RollResult.ThreePairs : 
                         remainingDice -= 6;
                         break;
                     case RollResult.FiveOfAKind : 
@@ -220,5 +220,62 @@ namespace ConsoleFarkle
             Console.WriteLine(remainingDice + "     Remainining dice");
             return remainingDice;
         }
+        public int calculateScore(List<RollResult> rollOptionsSelected, int currentScore) {
+            int newScore = currentScore;
+            foreach(RollResult rollOption in rollOptionsSelected) {
+                switch(rollOption) {
+                    case RollResult.Fives : 
+                        newScore += 50;
+                        break;
+                    case RollResult.Ones : 
+                        newScore += 100;
+                        break;
+                    case RollResult.TripOnes :
+                        newScore += 300;
+                        break;
+                    case RollResult.TripTwos : 
+                        newScore += 200;
+                        break;
+                    case RollResult.TripThrees : 
+                        newScore += 300;
+                        break;
+                    case RollResult.TripFours : 
+                        newScore += 400;
+                        break;
+                    case RollResult.TripFives : 
+                        newScore += 500;
+                        break;
+                    case RollResult.TripSixes : 
+                        newScore += 600;
+                        break; 
+                    case RollResult.FourOfAKind : 
+                        newScore += 1000;
+                        break;
+                    case RollResult.Straight : // TEST TO MAKE SURE YOU FIXED THIS BUG This also checks FourOfAKindAndPair and ThreePairs. They all remove the same amount of dice
+                        newScore += 1500;
+                        break;
+                    case RollResult.FourOfAKindAndPair : 
+                        newScore += 1500;
+                        break;
+                    case RollResult.ThreePairs : 
+                        newScore += 1500;
+                        break;
+                    case RollResult.FiveOfAKind : 
+                        newScore += 2000;
+                        break;
+                    case RollResult.SixOfAKind : 
+                        newScore += 3000;
+                        break; 
+                    case RollResult.TwoTriplets : 
+                        newScore += 2500;
+                        break;  
+                }
+            }
+            return newScore;
+        }
     }
 }
+            // Nothing = 0,
+            // Pair = 1,
+            // SixOfAKind = 3000,
+            // TwoTriplets = 2500,
