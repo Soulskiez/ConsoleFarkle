@@ -112,7 +112,6 @@ namespace ConsoleFarkle
                 rollResults.Add(RollResult.Straight);
             }
             if(rollResults.Count == 0) {
-                // TODO: Cant be reached, pair will always be in there. Need to remove pairs when we get to this point
                 rollResults.Add(RollResult.Nothing);
             }
             return rollResults;
@@ -168,7 +167,6 @@ namespace ConsoleFarkle
         public int calculateRemainingDice(List<RollResult> rollOptionsSelected, int currentDiceCount) {
             int remainingDice = currentDiceCount;
             foreach(RollResult rollOption in rollOptionsSelected) {
-                // REMINDER: this roll result is just a int, dont think of it as an actual type.
                 switch(rollOption) {
                     case RollResult.Fives : 
                         remainingDice--;
@@ -197,7 +195,7 @@ namespace ConsoleFarkle
                     case RollResult.FourOfAKind : 
                         remainingDice -= 4;
                         break;
-                    case RollResult.Straight : // TEST TO MAKE SURE YOU FIXED THIS BUG This also checks FourOfAKindAndPair and ThreePairs. They all remove the same amount of dice
+                    case RollResult.Straight : 
                         remainingDice -= 6;
                         break;
                     case RollResult.FourOfAKindAndPair : 
@@ -217,7 +215,6 @@ namespace ConsoleFarkle
                         break;  
                 }
             }
-            Console.WriteLine(remainingDice + "     Remainining dice");
             return remainingDice;
         }
         public int calculateScore(List<RollResult> rollOptionsSelected, int currentScore) {
@@ -251,7 +248,7 @@ namespace ConsoleFarkle
                     case RollResult.FourOfAKind : 
                         newScore += 1000;
                         break;
-                    case RollResult.Straight : // TEST TO MAKE SURE YOU FIXED THIS BUG This also checks FourOfAKindAndPair and ThreePairs. They all remove the same amount of dice
+                    case RollResult.Straight :  
                         newScore += 1500;
                         break;
                     case RollResult.FourOfAKindAndPair : 
@@ -275,7 +272,3 @@ namespace ConsoleFarkle
         }
     }
 }
-            // Nothing = 0,
-            // Pair = 1,
-            // SixOfAKind = 3000,
-            // TwoTriplets = 2500,
