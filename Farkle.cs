@@ -21,6 +21,7 @@ namespace ConsoleFarkle
             FiveOfAKind = 14,
             SixOfAKind = 15,
             TwoTriplets = 16,
+            TakeScore = 17,
     }
         
     class Farkle
@@ -159,8 +160,12 @@ namespace ConsoleFarkle
             List<RollResult> selectedDiceOptions = new List<RollResult>();
             foreach(char input in inputSelection) {
                 // TODO: check for invalid inputs, ex. spaces, numbers that are not in the list, invalid char...
-                int numIndex = int.Parse(input.ToString()) - 1;
-                selectedDiceOptions.Add(results[numIndex]);
+                if(input == '/') {
+                    selectedDiceOptions.Add(RollResult.TakeScore);
+                } else {
+                    int numIndex = int.Parse(input.ToString()) - 1;
+                    selectedDiceOptions.Add(results[numIndex]);
+                }
             }
             return selectedDiceOptions;
         }

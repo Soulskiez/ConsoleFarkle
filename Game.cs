@@ -24,25 +24,55 @@ namespace ConsoleFarkle
         }
 
         public void twoPlayerGame() {
+            int winningScore = 5000;
+            bool player1Turn = true;
             int startDice = 6;
+            int player1Farkles = 0;
+            int player2Farkles = 0;
             int player1Score = 0;
             int player2Score = 0;
-            playTurn(startDice, player1Score, player2Score, true);
+            while(player1Score <= winningScore && player2Score <= winningScore){
+                if(player1Turn) {
+                    Console.WriteLine("Player 1 your turn!");
+                    int turnResult = playTurn(startDice, player1Score);
+                    if(turnResult == 0) {
+                        player1Farkles++;
+                        player1Turn = false;
+                        if(player1Farkles >= 3) {
+                            player1Score -= 100;
+                        }
+                    } else {
+                        player1Farkles = 0;
+                    }
+                    player1Score += turnResult;
+                } else {
+                    Console.WriteLine("Player 2 your turn!");
+                    int turnResult = playTurn(startDice, player2Score);
+                    if(turnResult == 0) {
+                        player2Farkles++;
+                        player1Turn = false;
+                        if(player2Farkles >= 3) {
+                            player2Score -= 100;
+                        }
+                    } else {
+                        player2Farkles = 0;
+                    }
+                    player2Score += turnResult;
+                    player1Turn = true;
+                }
+            }
+            if(player1Score > player2Score) {
+                Console.WriteLine("Player 1 wins with a score of {0}", player1Score);
+            } else {
+                Console.WriteLine("Player 2 wins with a score of {0}", player2Score);
+            }
         }
 
-        public void playTurn(int startDice, int player1Score, int player2Score, bool isPlayer1) {
-            int currentScore;
-            if(isPlayer1) {
-                Console.WriteLine("Player 1 your turn!"); 
-                currentScore = player1Score;
-            } else {
-                Console.WriteLine("Player 2 your turn!");
-                currentScore = player2Score;
+        public int playTurn(int startDice, int playerScore) {
+            if(startDice == 0) {
+                return playerScore;
             }
-            if(currentScore >= 5000) { // rethink game state logic. at the bottom for this if statement
-                Console.WriteLine("you win!");
-                return;
-            }
+            int currentScore = playerScore;
             Farkle farkle = new Farkle();
             int diceCount = startDice;
             int[] rollTest = farkle.roll(diceCount);
@@ -57,22 +87,18 @@ namespace ConsoleFarkle
             }
             if(rollResults.Count == 1 && rollResults[0] == RollResult.Nothing) {
                 Console.WriteLine("FARKLE!!");
-                return;
+                return 0;
             }
             Console.WriteLine("Enter numbers of what options you want to take.");
             Console.WriteLine("_________");
             string input = Console.ReadLine();
             List<RollResult> rollResultsSelected = farkle.determineRollSelections(input, rollResults);
+            
             currentScore = farkle.calculateScore(rollResultsSelected, currentScore);
             int diceForNextRoll = farkle.calculateRemainingDice(rollResultsSelected, diceCount);
             Console.WriteLine("Here is the remaining dice count {0}, Current Score: {1}", diceForNextRoll, currentScore);
-            if(isPlayer1) {
-                Console.WriteLine("Player 1 your turn!"); 
-                playTurn(diceForNextRoll, currentScore, player2Score, !isPlayer1);
-            } else {
-                Console.WriteLine("Player 2 your turn!");
-                playTurn(diceForNextRoll, player1Score, currentScore, isPlayer1);
-            }
+            playTurn(diceForNextRoll, currentScore);
+            return 0;
         }
         public void computerGame() {
             Console.WriteLine("Play against computer");
