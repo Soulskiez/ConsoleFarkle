@@ -9,12 +9,15 @@ namespace ConsoleFarkle
             Fives = 50,
             Ones = 100,
             TripTwos = 200,
-            TripThrees, TripOnes = 300,
+            TripThrees = 300,
+            TripOnes = 300,
             TripFours = 400,
             TripFives = 500,
             TripSixes = 600,
             FourOfAKind = 1000,
-            Straight, FourOfAKindAndPair, ThreePairs = 1500,
+            Straight = 1500, 
+            FourOfAKindAndPair = 1500, 
+            ThreePairs = 1500,
             FiveOfAKind = 2000,
             SixOfAKind = 3000,
             TwoTriplets = 2500,
@@ -200,6 +203,7 @@ namespace ConsoleFarkle
                         remainingDice -= 4;
                         break;
                     case RollResult.Straight : // This also checks FourOfAKindAndPair and ThreePairs. They all remove the same amount of dice
+                        Console.WriteLine("HIT!!!!");
                         remainingDice -= 6;
                         break;
                     case RollResult.FiveOfAKind : 
@@ -213,6 +217,7 @@ namespace ConsoleFarkle
                         break;  
                 }
             }
+            Console.WriteLine(remainingDice + "     Remainining dice");
             return remainingDice;
         }
     }

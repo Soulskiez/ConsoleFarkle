@@ -31,7 +31,8 @@ namespace ConsoleFarkle
             int currentScore = score;
             Farkle farkle = new Farkle();
             int diceCount = startDice;
-            int[] rollTest = farkle.roll(diceCount);
+            //int[] rollTest = farkle.roll(diceCount);
+            int[] rollTest = {1,1,2,2,3,3};
             List<RollResult> rollResults = farkle.returnOptions(rollTest);
             Console.WriteLine("Roll test, Current Score: {0}", currentScore);
 
