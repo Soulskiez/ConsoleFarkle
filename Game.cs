@@ -24,40 +24,23 @@ namespace ConsoleFarkle
         }
 
         public void twoPlayerGame() {
+            TurnResult player1Result;
+            TurnResult player2Result;
             int winningScore = 5000;
             bool player1Turn = true;
             int startDice = 6;
-            int player1Farkles = 0;
-            int player2Farkles = 0;
             int player1Score = 0;
             int player2Score = 0;
             while(player1Score <= winningScore && player2Score <= winningScore){
                 if(player1Turn) {
                     Console.WriteLine("Player 1 your turn!");
-                    int turnResult = playTurn(startDice, player1Score);
-                    if(turnResult == 0) {
-                        player1Farkles++;
-                        player1Turn = false;
-                        if(player1Farkles >= 3) {
-                            player1Score -= 100;
-                        }
-                    } else {
-                        player1Farkles = 0;
-                    }
-                    player1Score += turnResult;
+                    player1Result = playTurn(startDice, player1Score);
+                    player1Score += player1Result.score;
+                    player1Turn = false;
                 } else {
                     Console.WriteLine("Player 2 your turn!");
-                    int turnResult = playTurn(startDice, player2Score);
-                    if(turnResult == 0) {
-                        player2Farkles++;
-                        player1Turn = false;
-                        if(player2Farkles >= 3) {
-                            player2Score -= 100;
-                        }
-                    } else {
-                        player2Farkles = 0;
-                    }
-                    player2Score += turnResult;
+                    player2Result = playTurn(startDice, player2Score);
+                    player2Score += player2Result.score;
                     player1Turn = true;
                 }
             }
@@ -68,9 +51,10 @@ namespace ConsoleFarkle
             }
         }
 
-        public int playTurn(int startDice, int playerScore) {
-            if(startDice == 0) {
-                return playerScore;
+        public ConsoleFarkle.TurnResult playTurn(int startDice, int playerScore) {
+            if(startDice == 0) { // TODO : if dice = 0 restart. fix this later
+                TurnResult result = new TurnResult(playerScore, true);
+                return result;
             }
             int currentScore = playerScore;
             Farkle farkle = new Farkle();
@@ -87,7 +71,8 @@ namespace ConsoleFarkle
             }
             if(rollResults.Count == 1 && rollResults[0] == RollResult.Nothing) {
                 Console.WriteLine("FARKLE!!");
-                return 0;
+                TurnResult result2 = new TurnResult(playerScore, true);
+                return result2;
             }
             Console.WriteLine("Enter numbers of what options you want to take.");
             Console.WriteLine("_________");
@@ -98,7 +83,8 @@ namespace ConsoleFarkle
             int diceForNextRoll = farkle.calculateRemainingDice(rollResultsSelected, diceCount);
             Console.WriteLine("Here is the remaining dice count {0}, Current Score: {1}", diceForNextRoll, currentScore);
             playTurn(diceForNextRoll, currentScore);
-            return 0;
+            TurnResult result3 = new TurnResult(playerScore, true);
+            return result3;
         }
         public void computerGame() {
             Console.WriteLine("Play against computer");
