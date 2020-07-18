@@ -29,24 +29,24 @@ namespace ConsoleFarkle
             int startDice = 6;
             int player1Score = 0;
             int player2Score = 0;
-            while(player1Score <= winningScore && player2Score <= winningScore) {
+            while(playerHasntWon(player1Score, player2Score, winningScore)) { 
                 if(player1Turn) {
-                    // TODO: fix this, I am adding score but then when I farkle i add 0, play turn either needs to handle the whole turn which it can.
                     Console.WriteLine("Player 1 your turn! Score: {0}", player1Score);
-                    TurnResult turnResult = playTurn(startDice, player1Score);
+                    TurnResult turnResult = playTurn(startDice, 0);
                     if(!turnResult.didFarkle) {
                         player1Score += turnResult.score;
                     }
                     player1Turn = false;
                 } else {
                     Console.WriteLine("Player 2 your turn! Score: {0}", player2Score);
-                    TurnResult turnResult = playTurn(startDice, player2Score);
+                    TurnResult turnResult = playTurn(startDice, 0);
                     if(!turnResult.didFarkle) {
                         player2Score += turnResult.score;
                     }
                     player1Turn = true;
                 }
             }
+            Console.WriteLine("p1 score: {0}, p2 score: {1}, gameover", player1Score, player2Score);
         }
         public RollResult playRoll(int startDice, int turnScore) {
             RollResult turnResult;
@@ -102,6 +102,15 @@ namespace ConsoleFarkle
                 turnResult = playTurn(currentDiceCount, currentScore);
 
             return turnResult;
+        }
+        public bool playerHasntWon(int p1Score, int p2Score, int winCondition) {
+            if(p1Score >= winCondition) {
+                return false;
+            } else if(p2Score >= winCondition) {
+                return false;
+            } else {
+                return true;
+            }
         }
         public void computerGame() {
             Console.WriteLine("Play against computer");
