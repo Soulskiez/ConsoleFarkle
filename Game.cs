@@ -87,7 +87,7 @@ namespace ConsoleFarkle
             if(currentDiceCount == 0) {
                 currentDiceCount = 6;
             }
-            RollResult rollResult = playRoll(startDice, playerScore);
+            RollResult rollResult = playRoll(currentDiceCount, currentScore);
             TurnResult turnResult;
             if(rollResult.endTurn && rollResult.farkle) {
                 turnResult = new TurnResult(currentScore, true);
