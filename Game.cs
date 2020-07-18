@@ -24,44 +24,40 @@ namespace ConsoleFarkle
         }
 
         public void twoPlayerGame() {
-            TurnResult turnResult;
             int winningScore = 5000;
             bool player1Turn = true;
             int startDice = 6;
             int player1Score = 0;
             int player2Score = 0;
+            int counter = 0;
             while(player1Score <= winningScore && player2Score <= winningScore) {
+                counter++;
+                Console.WriteLine("Counter: {0}, Is player 1 turn: {1}", counter, player1Turn);
                 if(player1Turn) {
                     // TODO: fix this, I am adding score but then when I farkle i add 0, play turn either needs to handle the whole turn which it can.
-                    Console.WriteLine("Player 1 your turn!");
-                    turnResult = playTurn(startDice, 0);
-                    Console.WriteLine("Score: {0}, EndTurn: {1}, Farkle: {2}", turnResult.score, turnResult.endTurn, turnResult.farkle);
-                    if(turnResult.endTurn && !turnResult.farkle) {
+                    Console.WriteLine("Player 1 your turn! Score: {0}", player1Score);
+                    TurnResult turnResult = playTurn(startDice, player1Score);
+                    if(!turnResult.didFarkle) {
                         player1Score += turnResult.score;
-                        player1Turn = false;
-                    } else if(turnResult.farkle) {
-                        player1Turn = false;
                     }
+                    player1Turn = false;
                 } else {
-                    Console.WriteLine("Player 2 your turn!");
-                    turnResult = playTurn(startDice, 0);
-                    Console.WriteLine("Score: {0}, EndTurn: {1}, Farkle: {2}", turnResult.score, turnResult.endTurn, turnResult.farkle);
-                    if(turnResult.endTurn && !turnResult.farkle) {
+                    Console.WriteLine("Player 2 your turn! Score: {0}", player2Score);
+                    TurnResult turnResult = playTurn(startDice, player2Score);
+                    if(!turnResult.didFarkle) {
                         player2Score += turnResult.score;
-                        player1Turn = true;
-                    } else if(turnResult.farkle) {
-                        player1Turn = true;
                     }
+                    player1Turn = true;
                 }
             }
         }
-        public ConsoleFarkle.TurnResult playTurn(int startDice, int turnScore) {
-            TurnResult turnResult;
+        public RollResult playRoll(int startDice, int turnScore) {
+            RollResult turnResult;
             Farkle farkle = new Farkle();
             int currentDiceCount = startDice;
             int currentScore = turnScore;
             int[] diceRolls = farkle.roll(currentDiceCount);
-            List<RollResult> rollResults = farkle.returnOptions(diceRolls);
+            List<RollOption> rollResults = farkle.returnOptions(diceRolls);
             foreach(int roll in diceRolls) {
                 Console.Write("{0} | ", roll);
             }
@@ -70,30 +66,44 @@ namespace ConsoleFarkle
             for(int i = 0; i < rollResults.Count; i++) {
                 Console.WriteLine("{0}. {1}", i + 1, rollResults[i]);
             }
-            if(rollResults[0] == RollResult.Nothing) {
+            if(rollResults[0] == RollOption.Nothing) {
                 Console.WriteLine("FARKLE!");
-                turnResult = new TurnResult(0, true, true);
-                Console.WriteLine("score: {0}, endturn: {1}, farkle: {2}", turnResult.score, turnResult.endTurn, turnResult.farkle);
+                turnResult = new RollResult(0, true, true, currentDiceCount);
                 return turnResult;
             }
             Console.WriteLine("Enter numbers of what options you want to take. If you want to take the roll, end your input with a /");
             Console.WriteLine("_______________");
             string input = Console.ReadLine();
-            List<RollResult> rollResultsSelected = farkle.determineRollSelections(input, rollResults);
+            List<RollOption> rollResultsSelected = farkle.determineRollSelections(input, rollResults);
             currentScore = farkle.calculateScore(rollResultsSelected, turnScore);
             currentDiceCount = farkle.calculateRemainingDice(rollResultsSelected, currentDiceCount);
-            Console.WriteLine("Current Turn Score: {0}, Remaining Dice: {1}", currentScore, currentDiceCount);
-            bool endTurnTakeScore = (rollResultsSelected[rollResultsSelected.Count - 1] == RollResult.TakeScore ? true : false);
-            Console.WriteLine("{0} endturntakescore",endTurnTakeScore);
-            turnResult = new TurnResult(currentScore, endTurnTakeScore, false);
-            Console.WriteLine("Score: {0}, Endturn: {1}, Farkle: {2}", turnResult.score, turnResult.endTurn, turnResult.farkle);
+            bool endTurnTakeScore = (rollResultsSelected[rollResultsSelected.Count - 1] == RollOption.TakeScore ? true : false);
+            turnResult = new RollResult(currentScore, endTurnTakeScore, false, currentDiceCount);
             Console.WriteLine("\n\n\n");
-            if(!turnResult.endTurn) {
-                if(currentDiceCount == 0){
-                    currentDiceCount = 6;
-                } 
-                playTurn(currentDiceCount, currentScore);
+            return turnResult;
+        }
+
+        public TurnResult playTurn(int startDice, int playerScore) {
+            int currentDiceCount = startDice;
+            int currentScore = playerScore;
+            Console.WriteLine("Turn Score: {0}", currentScore);
+            if(currentDiceCount == 0) {
+                currentDiceCount = 6;
             }
+            RollResult rollResult = playRoll(startDice, playerScore);
+            TurnResult turnResult;
+            if(rollResult.endTurn && rollResult.farkle) {
+                turnResult = new TurnResult(currentScore, true);
+                return turnResult;
+            } else if(rollResult.endTurn && !rollResult.farkle) {
+                currentScore += rollResult.score;
+                turnResult = new TurnResult(currentScore, false);
+                return turnResult;
+            }
+                currentScore += rollResult.score;
+                currentDiceCount = rollResult.remainingDice;
+                turnResult = playTurn(currentDiceCount, currentScore);
+
             return turnResult;
         }
         public void computerGame() {

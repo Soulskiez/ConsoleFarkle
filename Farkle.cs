@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace ConsoleFarkle
 {
-    public enum RollResult {
+    public enum RollOption {
             Nothing = 0,
             Pair = 1,
             Fives = 2,
@@ -29,15 +29,15 @@ namespace ConsoleFarkle
         Random random = new Random();
 
         public int[] roll(int rollCount) {
-            int[] rollResults = new int[rollCount];
+            int[] rollOptions = new int[rollCount];
             for(int i = 0; i < rollCount; i++) {
                 int num = random.Next(1,6);
-                rollResults[i] = num;
+                rollOptions[i] = num;
             }
-            return rollResults;
+            return rollOptions;
         }
-        public List<RollResult> returnOptions(int[] roll) {
-            List<RollResult> rollResults = new List<RollResult>();
+        public List<RollOption> returnOptions(int[] roll) {
+            List<RollOption> rollOptions = new List<RollOption>();
             //Roll Number , Frequency
             Dictionary<int, int> resultTracker = new Dictionary<int, int>();
             Array.Sort(roll);
@@ -54,32 +54,32 @@ namespace ConsoleFarkle
                     switch(resultTracker[currentKey]) {
                         case 1 : 
                             if(currentKey == 1) {
-                                rollResults.Add(RollResult.Ones);
+                                rollOptions.Add(RollOption.Ones);
                             } else if(currentKey == 5) {
-                                rollResults.Add(RollResult.Fives);
+                                rollOptions.Add(RollOption.Fives);
                             }
                             break;
                         case 2 : 
                             if(currentKey == 1) {
-                                rollResults.Add(RollResult.Ones);
-                                rollResults.Add(RollResult.Ones);
+                                rollOptions.Add(RollOption.Ones);
+                                rollOptions.Add(RollOption.Ones);
                             } else if(currentKey == 5) {
-                                rollResults.Add(RollResult.Fives);
-                                rollResults.Add(RollResult.Fives);
+                                rollOptions.Add(RollOption.Fives);
+                                rollOptions.Add(RollOption.Fives);
                             }
-                            rollResults.Add(RollResult.Pair);
+                            rollOptions.Add(RollOption.Pair);
                             break;
                         case 3 :
-                            rollResults.Add(getTripsResult(currentKey));
+                            rollOptions.Add(getTripsResult(currentKey));
                             break;
                         case 4 :
-                            rollResults.Add(RollResult.FourOfAKind);
+                            rollOptions.Add(RollOption.FourOfAKind);
                             break;
                         case 5 :
-                            rollResults.Add(RollResult.FiveOfAKind);
+                            rollOptions.Add(RollOption.FiveOfAKind);
                             break;
                         case 6 : 
-                            rollResults.Add(RollResult.SixOfAKind);
+                            rollOptions.Add(RollOption.SixOfAKind);
                             break;
                         default :
                             break;
@@ -90,65 +90,67 @@ namespace ConsoleFarkle
             int tripletCount = 0;
             bool pair = false;
             bool fourOfAKind = false;
-            foreach(RollResult result in rollResults) {
-                if(result == RollResult.Pair) {
+            foreach(RollOption result in rollOptions) {
+                if(result == RollOption.Pair) {
                     pair = true;
                     pairCount++;
-                } else if(isTripsRollResult(result)) {
+                } else if(isTripsRollOption(result)) {
                     tripletCount++;
-                } else if(result == RollResult.FourOfAKind) {
+                } else if(result == RollOption.FourOfAKind) {
                     fourOfAKind = true;
                 } 
             }
             if(pair && fourOfAKind) {
-                rollResults.Add(RollResult.FourOfAKindAndPair);
+                rollOptions.Add(RollOption.FourOfAKindAndPair);
             } else if(pairCount == 3) {
-                rollResults.Add(RollResult.ThreePairs);
+                rollOptions.Add(RollOption.ThreePairs);
             } else if(tripletCount == 2) {
-                rollResults.Add(RollResult.TwoTriplets);
+                rollOptions.Add(RollOption.TwoTriplets);
             } 
-            rollResults.RemoveAll(isPair);
+            rollOptions.RemoveAll(isPair);
             if(isStraight(roll)) {
-                Console.WriteLine("isStriaght is true");
-                rollResults.Add(RollResult.Straight);
+                rollOptions.Add(RollOption.Straight);
             }
-            if(rollResults.Count == 0) {
-                rollResults.Add(RollResult.Nothing);
+            if(rollOptions.Count == 0) {
+                rollOptions.Add(RollOption.Nothing);
             }
-            return rollResults;
+            return rollOptions;
         }
-        private RollResult getTripsResult(int rollKey) {
+        private RollOption getTripsResult(int rollKey) {
             switch(rollKey) {
                 case 1 :
-                    return RollResult.TripOnes;
+                    return RollOption.TripOnes;
                 case 2 :
-                    return RollResult.TripTwos;
+                    return RollOption.TripTwos;
                 case 3 :
-                    return RollResult.TripThrees;
+                    return RollOption.TripThrees;
                 case 4 :
-                    return RollResult.TripFours;
+                    return RollOption.TripFours;
                 case 5 :
-                    return RollResult.TripFives;
+                    return RollOption.TripFives;
                 case 6 :
-                    return RollResult.TripSixes;
+                    return RollOption.TripSixes;
                 default : 
-                    return RollResult.TripOnes;
+                    return RollOption.TripOnes;
             }
         }
 
-        private bool isTripsRollResult(RollResult result) {
-            return (result == RollResult.TripOnes ||
-                result == RollResult.TripTwos ||
-                result == RollResult.TripThrees ||
-                result == RollResult.TripFours ||
-                result == RollResult.TripFives ||
-                result == RollResult.TripSixes
+        private bool isTripsRollOption(RollOption result) {
+            return (result == RollOption.TripOnes ||
+                result == RollOption.TripTwos ||
+                result == RollOption.TripThrees ||
+                result == RollOption.TripFours ||
+                result == RollOption.TripFives ||
+                result == RollOption.TripSixes
             ) ? true : false;
         }
-        private static bool isPair(RollResult roll) {
-            return roll == RollResult.Pair;
+        private static bool isPair(RollOption roll) {
+            return roll == RollOption.Pair;
         }
         private bool isStraight(int[] roll) {
+            if(roll.Length != 6) {
+                return false;
+            }
             for(int i = 0; i < roll.Length; i++) {
                 if(roll[i] != i + 1){
                     return false;
@@ -156,12 +158,12 @@ namespace ConsoleFarkle
             }
             return true;
         }
-        public List<RollResult> determineRollSelections(string inputSelection, List<RollResult> results) {
-            List<RollResult> selectedDiceOptions = new List<RollResult>();
+        public List<RollOption> determineRollSelections(string inputSelection, List<RollOption> results) {
+            List<RollOption> selectedDiceOptions = new List<RollOption>();
             foreach(char input in inputSelection) {
                 // TODO: check for invalid inputs, ex. spaces, numbers that are not in the list, invalid char...
                 if(input == '/') {
-                    selectedDiceOptions.Add(RollResult.TakeScore);
+                    selectedDiceOptions.Add(RollOption.TakeScore);
                 } else {
                     int numIndex = int.Parse(input.ToString()) - 1;
                     selectedDiceOptions.Add(results[numIndex]);
@@ -169,106 +171,106 @@ namespace ConsoleFarkle
             }
             return selectedDiceOptions;
         }
-        public int calculateRemainingDice(List<RollResult> rollOptionsSelected, int currentDiceCount) {
+        public int calculateRemainingDice(List<RollOption> rollOptionsSelected, int currentDiceCount) {
             int remainingDice = currentDiceCount;
-            foreach(RollResult rollOption in rollOptionsSelected) {
+            foreach(RollOption rollOption in rollOptionsSelected) {
                 switch(rollOption) {
-                    case RollResult.Fives : 
+                    case RollOption.Fives : 
                         remainingDice--;
                         break;
-                    case RollResult.Ones : 
+                    case RollOption.Ones : 
                         remainingDice--;
                         break;
-                    case RollResult.TripOnes :
+                    case RollOption.TripOnes :
                         remainingDice -= 3;
                         break;
-                    case RollResult.TripTwos : 
+                    case RollOption.TripTwos : 
                         remainingDice -= 3;
                         break;
-                    case RollResult.TripThrees : 
+                    case RollOption.TripThrees : 
                         remainingDice -= 3;
                         break;
-                    case RollResult.TripFours : 
+                    case RollOption.TripFours : 
                         remainingDice -= 3;
                         break;
-                    case RollResult.TripFives : 
+                    case RollOption.TripFives : 
                         remainingDice -= 3;
                         break;
-                    case RollResult.TripSixes : 
+                    case RollOption.TripSixes : 
                         remainingDice -= 3;
                         break; 
-                    case RollResult.FourOfAKind : 
+                    case RollOption.FourOfAKind : 
                         remainingDice -= 4;
                         break;
-                    case RollResult.Straight : 
+                    case RollOption.Straight : 
                         remainingDice -= 6;
                         break;
-                    case RollResult.FourOfAKindAndPair : 
+                    case RollOption.FourOfAKindAndPair : 
                         remainingDice -= 6;
                         break;
-                    case RollResult.ThreePairs : 
+                    case RollOption.ThreePairs : 
                         remainingDice -= 6;
                         break;
-                    case RollResult.FiveOfAKind : 
+                    case RollOption.FiveOfAKind : 
                         remainingDice -= 5;
                         break;
-                    case RollResult.SixOfAKind : 
+                    case RollOption.SixOfAKind : 
                         remainingDice -= 6;
                         break; 
-                    case RollResult.TwoTriplets : 
+                    case RollOption.TwoTriplets : 
                         remainingDice -= 6;
                         break;  
                 }
             }
             return remainingDice;
         }
-        public int calculateScore(List<RollResult> rollOptionsSelected, int currentScore) {
+        public int calculateScore(List<RollOption> rollOptionsSelected, int currentScore) {
             int newScore = currentScore;
-            foreach(RollResult rollOption in rollOptionsSelected) {
+            foreach(RollOption rollOption in rollOptionsSelected) {
                 switch(rollOption) {
-                    case RollResult.Fives : 
+                    case RollOption.Fives : 
                         newScore += 50;
                         break;
-                    case RollResult.Ones : 
+                    case RollOption.Ones : 
                         newScore += 100;
                         break;
-                    case RollResult.TripOnes :
+                    case RollOption.TripOnes :
                         newScore += 300;
                         break;
-                    case RollResult.TripTwos : 
+                    case RollOption.TripTwos : 
                         newScore += 200;
                         break;
-                    case RollResult.TripThrees : 
+                    case RollOption.TripThrees : 
                         newScore += 300;
                         break;
-                    case RollResult.TripFours : 
+                    case RollOption.TripFours : 
                         newScore += 400;
                         break;
-                    case RollResult.TripFives : 
+                    case RollOption.TripFives : 
                         newScore += 500;
                         break;
-                    case RollResult.TripSixes : 
+                    case RollOption.TripSixes : 
                         newScore += 600;
                         break; 
-                    case RollResult.FourOfAKind : 
+                    case RollOption.FourOfAKind : 
                         newScore += 1000;
                         break;
-                    case RollResult.Straight :  
+                    case RollOption.Straight :  
                         newScore += 1500;
                         break;
-                    case RollResult.FourOfAKindAndPair : 
+                    case RollOption.FourOfAKindAndPair : 
                         newScore += 1500;
                         break;
-                    case RollResult.ThreePairs : 
+                    case RollOption.ThreePairs : 
                         newScore += 1500;
                         break;
-                    case RollResult.FiveOfAKind : 
+                    case RollOption.FiveOfAKind : 
                         newScore += 2000;
                         break;
-                    case RollResult.SixOfAKind : 
+                    case RollOption.SixOfAKind : 
                         newScore += 3000;
                         break; 
-                    case RollResult.TwoTriplets : 
+                    case RollOption.TwoTriplets : 
                         newScore += 2500;
                         break;  
                 }
