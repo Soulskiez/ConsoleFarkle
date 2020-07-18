@@ -29,10 +29,7 @@ namespace ConsoleFarkle
             int startDice = 6;
             int player1Score = 0;
             int player2Score = 0;
-            int counter = 0;
             while(player1Score <= winningScore && player2Score <= winningScore) {
-                counter++;
-                Console.WriteLine("Counter: {0}, Is player 1 turn: {1}", counter, player1Turn);
                 if(player1Turn) {
                     // TODO: fix this, I am adding score but then when I farkle i add 0, play turn either needs to handle the whole turn which it can.
                     Console.WriteLine("Player 1 your turn! Score: {0}", player1Score);
