@@ -7,20 +7,8 @@ namespace ConsoleFarkle
     {
         public void startGame()
         {
-            Console.WriteLine("Welcome to Console Farkle. \n Press 1 To play against another player \n Press 2 To play against computer.");
-            int gameMode = Int32.Parse(Console.ReadLine());
-            switch(gameMode) {
-                case 1 :
-                    Console.WriteLine("Play against another player");
-                    twoPlayerGame();
-                    break;
-                case 2 : 
-                    computerGame();
-                    break;
-                default : 
-                    Console.WriteLine("You didn't enter a valid option");
-                    break;
-            }
+            Console.WriteLine("Welcome to Console Farkle. \n \n \n ");
+            twoPlayerGame();
         }
 
         public void twoPlayerGame() {
@@ -111,9 +99,6 @@ namespace ConsoleFarkle
             } else {
                 return true;
             }
-        }
-        public void computerGame() {
-            Console.WriteLine("Play against computer");
         }
     }
 }
